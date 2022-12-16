@@ -1,23 +1,20 @@
-// var money = Number(prompt(`pulingizni kiriting`));
+// const userName = prompt('Ismingizni kiriting');
+// const age = Number(prompt(`salom ${userName}, yoshingizni kiriting`));
 
-// var dollarToSum = 10650.34;
-// var euroToSum = 10650.03;
+// const elText = document.querySelector('.text');
+// const elAge = document.querySelector('#age');
 
-// var pricePlane = 500;
-// var priceHotel = 250;
+// elText.textContent = 'Salom:' + userName;
+// elAge.textContent = `siz ${age / 3.6} yilda tug'ilgansiz`;
 
-// var priceFun = 120;
+// elText.className += ' text-warning';
 
-// var totalPrice =
-// 	pricePlane * dollarToSum + priceHotel * dollarToSum + priceFun * euroToSum;
+const elInput = document.querySelector('input');
 
-// if (money >= totalPrice) {
-// 	var money2 = Math.round(money - totalPrice);
 
-// 	alert(`Mablag'ingiz yetarli, ${money2} so'm pulingiz ortib qoldi`);
-// } else {
-// 	alert('pulingiz yetarli emas');
-// }
-// console.log(Number(true));
+const space = 100;
 
-console.log(12 - "12");
+const personSpeed = 3.6;
+const VehicleSpeed = 3.6;
+const carSpeed = 3.6;
+const planeSpeed = 3.6;
