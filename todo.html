@@ -10,30 +10,38 @@
 			integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="./css/main.min.css	" />
 
 		<title>Document</title>
 	</head>
 	<body>
 		<div class="container my-3">
-			<h2 class="text-center">Todo list</h2>
+			<button id="theme-btn" class="btn btn-secondary">Dark mode</button>
+
+			<h2 class="text-center text-primary">Todo list</h2>
 
 			<div class="mx-auto w-50">
 				<form class="form-control" id="form">
 					<input
-						required
 						name="input"
 						class="form-control"
 						type="text"
 						placeholder="Add todo..."
 					/>
 				</form>
-
+				<h2 class="text-center text-secondary" id="error"></h2>
 				<ul
 					id="todo-list"
 					class="bg-secondary list-unstyled my-5 p-3 rounded-2 shadow"
+				></ul>
+
+				<button
+					style="display: none"
+					id="clear-btn"
+					class="btn btn-danger mx-auto"
 				>
-					<h2 id="error"></h2>
-				</ul>
+					Clear todos
+				</button>
 			</div>
 		</div>
 

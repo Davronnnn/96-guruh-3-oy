@@ -1,3 +1,10 @@
+--root {
+	--primary-color: #ffffff;
+	--secondary-color: #000000;
+	--primary-text-color: #000000;
+	--secondary-text-color: #ffffff;
+}
+
 .circles {
 	display: flex;
 	justify-content: center;
@@ -26,4 +33,12 @@ input {
 	background-color: #0000ff;
 	padding: 10px;
 	color: #fff;
+}
+
+.dark {
+	background-color: #000;
+	color: #fff !important;
+}
+.dark * {
+	/* color: #fff !important; */
 }
