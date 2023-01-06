@@ -1,9 +1,12 @@
 const elForm = document.querySelector('#form-post');
 const elCards = document.querySelector('.cards');
 const elSelect = document.querySelector('#types-select');
+const elSearch = document.querySelector('#search');
 let filteredPosts = [];
-const posts = [
+
+let posts = [
 	{
+		id: 1,
 		title: 'Post 1',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
@@ -12,6 +15,7 @@ const posts = [
 		genres: ['sport', 'uzbekiston'],
 	},
 	{
+		id: 2,
 		title: 'Post 2',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
@@ -20,6 +24,7 @@ const posts = [
 		genres: ['Sport'],
 	},
 	{
+		id: 3,
 		title: 'Post 3',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
@@ -28,6 +33,7 @@ const posts = [
 		genres: ['uzbekiston'],
 	},
 	{
+		id: 4,
 		title: 'Post 4',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
@@ -36,6 +42,7 @@ const posts = [
 		genres: ['sport', 'siyosat'],
 	},
 	{
+		id: 5,
 		title: 'Post 5',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
@@ -45,7 +52,6 @@ const posts = [
 	},
 ];
 
-
 elSelect.addEventListener('change', () => {
 	const type = elSelect.value;
 
@@ -54,16 +60,13 @@ elSelect.addEventListener('change', () => {
 	if (type === 'all') {
 		renderPosts(posts);
 	} else {
-		for (let i = 0; i < posts.length; i++) {
-			const post = posts[i];
-			for (let i = 0; i < post.genres.length; i++) {
-				const genre = post.genres[i];
-
+		posts.forEach((post) => {
+			post.genres.forEach((genre) => {
 				if (genre.toLowerCase() === type.toLowerCase()) {
 					filteredPosts.push(post);
 				}
-			}
-		}
+			});
+		});
 
 		renderPosts(filteredPosts);
 	}
@@ -87,24 +90,40 @@ function generateDate(date) {
 	return `📅 ${hours}:${minutes} / ${day}.${month}.${year}`;
 }
 
+elCards.addEventListener('click', (evt) => {
+	const target = evt.target;
+
+	let newPosts = [];
+	if (target.className.includes('delete-btn')) {
+		const id = Number(target.dataset.id);
+
+		posts.forEach((post) => {
+			if (post.id !== id) {
+				newPosts.push(post);
+			}
+		});
+		posts = newPosts;
+		renderPosts(posts);
+	}
+});
+
 const renderPosts = (array, element = elCards) => {
 	element.innerHTML = '';
-	for (let i = 0; i < array.length; i++) {
-		const post = array[i];
 
+	array.forEach((post) => {
 		const newCard = document.createElement('div');
 
 		const resultDate = generateDate(post.date);
 
 		const newUl = document.createElement('ul');
 
-		for (let i = 0; i < post.genres.length; i++) {
-			const element = post.genres[i];
+		post.genres.forEach((element) => {
 			const newLi = document.createElement('li');
 			newLi.className = 'list-group-item';
 			newLi.textContent = element;
 			newUl.appendChild(newLi);
-		}
+		});
+
 		newCard.className = 'card col-12 col-sm-5 col-md-3';
 		newCard.innerHTML = `
                     <img
@@ -121,16 +140,20 @@ const renderPosts = (array, element = elCards) => {
 						</p>
                         ${newUl.outerHTML}
 						<p class="card-date">${resultDate}</p>
+						<div class="d-flex justify-content-between">
+							<button data-id="${post.id}" class="btn btn-danger delete-btn"> Delete </button>
+							<button data-id="${post.id}" class="btn btn-info"> Edit </button>
+						</div>
 					</div>
     `;
 
 		element.appendChild(newCard);
-	}
+	});
 };
 
 renderPosts(posts);
 
-const funksiya = elForm.addEventListener('submit', (evt) => {
+elForm.addEventListener('submit', (evt) => {
 	evt.preventDefault();
 
 	const title = evt.target.title.value;
@@ -149,6 +172,7 @@ const funksiya = elForm.addEventListener('submit', (evt) => {
 	}
 
 	const newPost = {
+		id: posts.length > 0 ? posts[posts.length - 1].id + 1 : 1,
 		title: title,
 		description: description,
 		image: image,
