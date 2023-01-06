@@ -1,6 +1,7 @@
 const elForm = document.querySelector('#form-post');
 const elCards = document.querySelector('.cards');
-
+const elSelect = document.querySelector('#types-select');
+let filteredPosts = [];
 const posts = [
 	{
 		title: 'Post 1',
@@ -10,7 +11,64 @@ const posts = [
 		date: new Date(),
 		genres: ['sport', 'uzbekiston'],
 	},
+	{
+		title: 'Post 2',
+		description:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+		image: 'https://picsum.photos/200/300',
+		date: new Date(),
+		genres: ['Sport'],
+	},
+	{
+		title: 'Post 3',
+		description:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+		image: 'https://picsum.photos/200/300',
+		date: new Date(),
+		genres: ['uzbekiston'],
+	},
+	{
+		title: 'Post 4',
+		description:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+		image: 'https://picsum.photos/200/300',
+		date: new Date(),
+		genres: ['sport', 'siyosat'],
+	},
+	{
+		title: 'Post 5',
+		description:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+		image: 'https://picsum.photos/200/300',
+		date: new Date(),
+		genres: ['sport', 'uzbekiston'],
+	},
 ];
+
+
+elSelect.addEventListener('change', () => {
+	const type = elSelect.value;
+
+	filteredPosts = [];
+
+	if (type === 'all') {
+		renderPosts(posts);
+	} else {
+		for (let i = 0; i < posts.length; i++) {
+			const post = posts[i];
+			for (let i = 0; i < post.genres.length; i++) {
+				const genre = post.genres[i];
+
+				if (genre.toLowerCase() === type.toLowerCase()) {
+					filteredPosts.push(post);
+				}
+			}
+		}
+
+		renderPosts(filteredPosts);
+	}
+});
+
 function generateDate(date) {
 	const year = date.getFullYear();
 	const month =
@@ -32,7 +90,7 @@ function generateDate(date) {
 const renderPosts = (array, element = elCards) => {
 	element.innerHTML = '';
 	for (let i = 0; i < array.length; i++) {
-		const post = posts[i];
+		const post = array[i];
 
 		const newCard = document.createElement('div');
 

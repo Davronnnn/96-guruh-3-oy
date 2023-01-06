@@ -17,6 +17,7 @@
 	<body>
 		<div class="container">
 			<h2 class="text-center">Post qo'shish</h2>
+
 			<form id="form-post" class="form-control">
 				<input
 					class="form-control"
@@ -50,7 +51,7 @@
 					placeholder="image..."
 					value="sport"
 				/>
-				<label for="uzb"> Uzbekistan </label>
+				<label for="uzb"> Uzbekiston </label>
 				<input
 					id="uzb"
 					name="genres"
@@ -71,10 +72,18 @@
 				</button>
 			</form>
 
+			<select class="form-control" id="types-select">
+				<option value="all">Hamma post</option>
+				<option value="sport">Sport</option>
+				<option value="uzbekiston">Uzbekiston</option>
+				<option value="siyosat">Siyosat</option>
+			</select>
+
 			<!-- posts -->
 			<div class="cards mt-5 row gap-5"></div>
 		</div>
 
 		<script src="./js/main.js"></script>
+		<!-- <script src="./js/home-work.js"></script> -->
 	</body>
 </html>
