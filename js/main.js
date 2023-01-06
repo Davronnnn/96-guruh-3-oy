@@ -1,63 +1,106 @@
-const elInput = document.querySelector('#number-input');
-const elCircle1 = document.querySelector('.circle-1');
-const elCircle2 = document.querySelector('.circle-2');
+const elForm = document.querySelector('#form-post');
+const elCards = document.querySelector('.cards');
 
-const elBtn0 = document.querySelector('#btn0');
-const elBtn1 = document.querySelector('#btn1');
-const elBtn2 = document.querySelector('#btn2');
-const elBtn3 = document.querySelector('#btn3');
-const elBtn4 = document.querySelector('#btn4');
-const elBtn5 = document.querySelector('#btn5');
-const elBtn6 = document.querySelector('#btn6');
-const elBtn7 = document.querySelector('#btn7');
-const elBtn8 = document.querySelector('#btn8');
-const elBtn9 = document.querySelector('#btn9');
+const posts = [
+	{
+		title: 'Post 1',
+		description:
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+		image: 'https://picsum.photos/200/300',
+		date: new Date(),
+		genres: ['sport', 'uzbekiston'],
+	},
+];
+function generateDate(date) {
+	const year = date.getFullYear();
+	const month =
+		date.getMonth() + 1 < 10
+			? '0' + (date.getMonth() + 1)
+			: date.getMonth() + 1;
 
-function resetHandler() {
-	elInput.value = '';
-	elCircle1.className = 'circle circle-1';
-	elCircle2.className = 'circle circle-2';
-	elCircle1.textContent = '';
-	elCircle2.textContent = '';
+	const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+
+	const hours =
+		date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+
+	const minutes =
+		date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+
+	return `📅 ${hours}:${minutes} / ${day}.${month}.${year}`;
 }
 
-function checkInput() {
-	if (elInput.value >= 0 && elInput.value < 10) {
-		elCircle1.className += ' circle--active';
-		elCircle1.textContent = 'Active';
-		elCircle2.className = 'circle circle-2';
-		elCircle2.textContent = '';
-	} else if (elInput.value >= 10 && elInput.value < 100) {
-		elCircle2.className += ' circle--active';
-		elCircle2.textContent = 'Active';
-		elCircle1.className = 'circle circle-1';
-		elCircle1.textContent = '';
+const renderPosts = (array, element = elCards) => {
+	element.innerHTML = '';
+	for (let i = 0; i < array.length; i++) {
+		const post = posts[i];
+
+		const newCard = document.createElement('div');
+
+		const resultDate = generateDate(post.date);
+
+		const newUl = document.createElement('ul');
+
+		for (let i = 0; i < post.genres.length; i++) {
+			const element = post.genres[i];
+			const newLi = document.createElement('li');
+			newLi.className = 'list-group-item';
+			newLi.textContent = element;
+			newUl.appendChild(newLi);
+		}
+		newCard.className = 'card col-12 col-sm-5 col-md-3';
+		newCard.innerHTML = `
+                    <img
+						class="card-img-top"
+						src="${post.image}"
+						alt="${post.title}"
+					/>
+					<div class="card-body">
+						<h3 class="card-title">
+							${post.title}
+						</h3>
+						<p class="card-text">
+							${post.description}
+						</p>
+                        ${newUl.outerHTML}
+						<p class="card-date">${resultDate}</p>
+					</div>
+    `;
+
+		element.appendChild(newCard);
 	}
-}
+};
 
-function inputHandler(value) {
-	if (
-		elInput.value === '' ||
-		(elInput.value < 10 && elInput.value.length < 2)
-	) {
-		elInput.value += value;
+renderPosts(posts);
+
+const funksiya = elForm.addEventListener('submit', (evt) => {
+	evt.preventDefault();
+
+	const title = evt.target.title.value;
+	const description = evt.target.description.value;
+	const image = evt.target.image.value;
+	const genresElement = evt.target.genres;
+
+	const genres = [];
+
+	for (let i = 0; i < genresElement.length; i++) {
+		const element = genresElement[i];
+
+		if (element.checked) {
+			genres.push(element.value);
+		}
 	}
-}
 
-function eventHandler(elBtn, value) {
-	elBtn.addEventListener('click', function () {
-		inputHandler(value);
-		checkInput();
-	});
-}
+	const newPost = {
+		title: title,
+		description: description,
+		image: image,
+		date: new Date(),
+		genres: genres,
+	};
 
-eventHandler(elBtn0, '0');
-eventHandler(elBtn1, '1');
-eventHandler(elBtn2, '2');
-eventHandler(elBtn3, '3');
-eventHandler(elBtn4, '4');
-eventHandler(elBtn5, '5');
-eventHandler(elBtn6, '6');
-eventHandler(elBtn7, '7');
-eventHandler(elBtn8, '8');
-eventHandler(elBtn9, '9');
+	posts.push(newPost);
+
+	renderPosts(posts);
+
+	elForm.reset();
+});

@@ -15,51 +15,66 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<header
-			id="header"
-			style="top: 0; background-color: #000; padding: 10px"
-			class="text-light text-center fs-5 h1 position-fixed w-100"
-		>
-			<p>Salom</p>
-		</header>
-		<div style="margin-top: 100px" class="container">
-			<h1 title="salom" class="text-center" id="text-id">
-				Kim birinchi borishga
-			</h1>
-
-			<form class="form-control" id="form">
+		<div class="container">
+			<h2 class="text-center">Post qo'shish</h2>
+			<form id="form-post" class="form-control">
 				<input
-					id="input"
 					class="form-control"
-					type="number"
-					required
-					min="0"
+					name="title"
+					type="text"
+					placeholder="title..."
 				/>
-				<button class="btn btn-primary form-control mt-3" type="submit">
-					Hisobla
+				<input
+					class="form-control"
+					name="description"
+					type="text"
+					placeholder="description..."
+				/>
+				<!-- <input
+					class="form-control"
+					type="date"
+					name="date"
+					placeholder="sana"
+				/> -->
+				<input
+					name="image"
+					class="form-control"
+					type="text"
+					placeholder="image..."
+				/>
+				<label for="sport"> Sport </label>
+				<input
+					id="sport"
+					name="genres"
+					type="checkbox"
+					placeholder="image..."
+					value="sport"
+				/>
+				<label for="uzb"> Uzbekistan </label>
+				<input
+					id="uzb"
+					name="genres"
+					type="checkbox"
+					placeholder="image..."
+					value="uzb"
+				/>
+				<label for="siyosat"> Siyosat </label>
+				<input
+					id="siyosat"
+					name="genres"
+					type="checkbox"
+					placeholder="image..."
+					value="siyosat"
+				/>
+				<button class="btn btn-primary mt-3 form-control">
+					Add post
 				</button>
-				<button id="resetButton" type="reset">Tozalash</button>
 			</form>
 
-			<div class="row justify-content-around mt-5">
-				<div class="card p-3 col-2">
-					<h4>Piyoda</h4>
-					<p id="person">N soat</p>
-				</div>
-				<div class="card p-3 col-2">
-					<h4>Velosiped</h4>
-					<p id="bicycle">N soat</p>
-				</div>
-				<div class="card p-3 col-2">
-					<h4>Mashina</h4>
-					<p id="car">N soat</p>
-				</div>
-				<div class="card p-3 col-2">
-					<h4>Samalyot</h4>
-					<p id="plane">N soat</p>
-				</div>
-			</div>
+			<!-- posts -->
+			<div class="cards mt-5 row gap-5"></div>
 		</div>
-		<script src="./home-work.js"></script>
+
+		<script src="./js/main.js"></script>
 	</body>
 </html>
