@@ -1,7 +1,9 @@
-const elForm = document.querySelector('#form-post');
-const elCards = document.querySelector('.cards');
-const elSelect = document.querySelector('#types-select');
-const elSearch = document.querySelector('#search');
+const elForm = findElement('#form-post');
+const elCards = findElement('.cards');
+const elSelect = findElement('#types-select');
+const elSearch = findElement('#search');
+const formEdit = findElement('#form-edit');
+
 let filteredPosts = [];
 
 let posts = [
@@ -52,105 +54,6 @@ let posts = [
 	},
 ];
 
-elSelect.addEventListener('change', () => {
-	const type = elSelect.value;
-
-	filteredPosts = [];
-
-	if (type === 'all') {
-		renderPosts(posts);
-	} else {
-		posts.forEach((post) => {
-			post.genres.forEach((genre) => {
-				if (genre.toLowerCase() === type.toLowerCase()) {
-					filteredPosts.push(post);
-				}
-			});
-		});
-
-		renderPosts(filteredPosts);
-	}
-});
-
-function generateDate(date) {
-	const year = date.getFullYear();
-	const month =
-		date.getMonth() + 1 < 10
-			? '0' + (date.getMonth() + 1)
-			: date.getMonth() + 1;
-
-	const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-
-	const hours =
-		date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-
-	const minutes =
-		date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-
-	return `📅 ${hours}:${minutes} / ${day}.${month}.${year}`;
-}
-
-elCards.addEventListener('click', (evt) => {
-	const target = evt.target;
-
-	let newPosts = [];
-	if (target.className.includes('delete-btn')) {
-		const id = Number(target.dataset.id);
-
-		posts.forEach((post) => {
-			if (post.id !== id) {
-				newPosts.push(post);
-			}
-		});
-		posts = newPosts;
-		renderPosts(posts);
-	}
-});
-
-const renderPosts = (array, element = elCards) => {
-	element.innerHTML = '';
-
-	array.forEach((post) => {
-		const newCard = document.createElement('div');
-
-		const resultDate = generateDate(post.date);
-
-		const newUl = document.createElement('ul');
-
-		post.genres.forEach((element) => {
-			const newLi = document.createElement('li');
-			newLi.className = 'list-group-item';
-			newLi.textContent = element;
-			newUl.appendChild(newLi);
-		});
-
-		newCard.className = 'card col-12 col-sm-5 col-md-3';
-		newCard.innerHTML = `
-                    <img
-						class="card-img-top"
-						src="${post.image}"
-						alt="${post.title}"
-					/>
-					<div class="card-body">
-						<h3 class="card-title">
-							${post.title}
-						</h3>
-						<p class="card-text">
-							${post.description}
-						</p>
-                        ${newUl.outerHTML}
-						<p class="card-date">${resultDate}</p>
-						<div class="d-flex justify-content-between">
-							<button data-id="${post.id}" class="btn btn-danger delete-btn"> Delete </button>
-							<button data-id="${post.id}" class="btn btn-info"> Edit </button>
-						</div>
-					</div>
-    `;
-
-		element.appendChild(newCard);
-	});
-};
-
 renderPosts(posts);
 
 elForm.addEventListener('submit', (evt) => {
@@ -185,4 +88,125 @@ elForm.addEventListener('submit', (evt) => {
 	renderPosts(posts);
 
 	elForm.reset();
+});
+
+elSearch.addEventListener('input', (e) => {
+	let element = e.target; //asdasd
+
+	let array = [];
+
+	posts.forEach(function (post) {
+		if (post.title.toLowerCase().includes(element.value.toLowerCase())) {
+			array.push(post);
+		}
+	});
+
+	renderPosts(array);
+});
+
+elCards.addEventListener('click', (evt) => {
+	const target = evt.target;
+
+	if (target.className.includes('delete-btn')) {
+		let newPosts = [];
+		const id = Number(target.dataset.id);
+
+		posts.forEach((post) => {
+			if (post.id !== id) {
+				newPosts.push(post);
+			}
+		});
+		posts = newPosts;
+		renderPosts(posts);
+	}
+
+	if (target.className.includes('btn-info')) {
+		const id = Number(target.dataset.id);
+
+		posts.forEach((post) => {
+			if (post.id === id) {
+				const title = formEdit.title;
+				const description = formEdit.description;
+				const image = formEdit.image;
+				const img = formEdit.querySelector('img');
+				const editBtn = document.querySelector('#edit');
+
+				img.src = post.image;
+				img.alt = post.title;
+
+				const genreElement = formEdit.genres;
+
+				const genres = post.genres;
+
+				const sportGenre = formEdit.querySelector('#sport');
+				const uzbGenre = formEdit.querySelector('#uzb');
+				const siyosatGenre = formEdit.querySelector('#siyosat');
+
+				title.value = post.title;
+				description.value = post.description;
+				image.value = post.image;
+
+				sportGenre.checked = false;
+				uzbGenre.checked = false;
+				siyosatGenre.checked = false;
+
+				for (let i = 0; i < genres.length; i++) {
+					const genre = genres[i];
+
+					if (genre.toLowerCase() === 'sport') {
+						sportGenre.checked = true;
+					}
+					if (genre.toLowerCase() === 'uzbekiston') {
+						uzbGenre.checked = true;
+					}
+					if (genre.toLowerCase() === 'siyosat') {
+						siyosatGenre.checked = true;
+					}
+				}
+
+				editBtn.addEventListener('click', (evt) => {
+					const newGenres = [];
+
+					for (let i = 0; i < genreElement.length; i++) {
+						const element = genreElement[i];
+						if (element.checked) {
+							newGenres.push(element.value);
+						}
+					}
+
+					const newPost = {
+						id: post.id,
+						title: title.value,
+						description: description.value,
+						image: image.value,
+						date: new Date(),
+						genres: newGenres,
+					};
+
+					posts[id - 1] = newPost;
+
+					renderPosts(posts);
+				});
+			}
+		});
+	}
+});
+elSelect.addEventListener('change', () => {
+	const type = elSelect.value;
+
+	filteredPosts = [];
+
+	if (type === 'all') {
+		renderPosts(posts);
+	} else {
+		posts.forEach((post) => {
+			post.genres.forEach((genre) => {
+				if (genre.toLowerCase() === type.toLowerCase()) {
+					filteredPosts.push(post);
+				}
+			});
+		});
+
+		renderPosts(filteredPosts);
+	}
 });
