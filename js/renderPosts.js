@@ -1,6 +1,8 @@
 const renderPosts = (array, element = elCards) => {
 	element.innerHTML = '';
 
+	
+
 	array.forEach((post) => {
 		const newCard = document.createElement('div');
 

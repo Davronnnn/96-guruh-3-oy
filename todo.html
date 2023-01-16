@@ -16,35 +16,14 @@
 	</head>
 	<body>
 		<div class="container my-3">
-			<button id="theme-btn" class="btn btn-secondary">Dark mode</button>
-
-			<h2 class="text-center text-primary">Todo list</h2>
-
-			<div class="mx-auto w-50">
-				<form class="form-control" id="form">
-					<input
-						name="input"
-						class="form-control"
-						type="text"
-						placeholder="Add todo..."
-					/>
-				</form>
-				<h2 class="text-center text-secondary" id="error"></h2>
-				<ul
-					id="todo-list"
-					class="bg-secondary list-unstyled my-5 p-3 rounded-2 shadow"
-				></ul>
-
-				<button
-					style="display: none"
-					id="clear-btn"
-					class="btn btn-danger mx-auto"
-				>
-					Clear todos
-				</button>
-			</div>
+			<ul class="list row">
+				<li id="li1" class="col list-group-item">1</li>
+				<li id="li2" class="col list-group-item">2</li>
+				<li id="li3" class="col list-group-item">3</li>
+			</ul>
+			<div class="result">Salom</div>
 		</div>
 
-		<script src="todo.js"></script>
+		<script src="data.js"></script>
 	</body>
 </html>
